@@ -1,7 +1,6 @@
 <template>
  <div class="liste">
    <h1>Liste des messages de la catégorie : {{ categorie.name }}</h1>
-   <h2>Les messages</h2>
    <article class="article" v-for="message in categorie.messages" :key="message.id">
      <h3 class="message-titre">{{ message.title }}</h3>
      <p class="message">{{message.message}}</p>

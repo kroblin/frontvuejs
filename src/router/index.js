@@ -8,6 +8,7 @@ import AdminCategorie from "../views/admin/categorie/AdminCategorie";
 import AddCategorie from "../views/admin/categorie/AddCategorie";
 import AddMessage from "../views/admin/message/AddMessage";
 import UpdateMessage from "../views/admin/message/UpdateMessage";
+import UpdateCategorie from "../views/admin/categorie/UpdateCategorie";
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,11 @@ const routes = [
                 path: '/add-categorie',
                 name: 'add_categorie',
                 component: AddCategorie
+            },
+            {
+                path: ':id/update-categorie',
+                name: 'update_categorie',
+                component: UpdateCategorie
             },
             {
                 path: ':id/add-message',

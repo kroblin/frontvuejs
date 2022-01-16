@@ -15,7 +15,7 @@
         <tbody>
         <tr v-for="message in categorie.messages" :key="message.id">
           <td>{{ message.title }}</td>
-          <td>{{ message.message }}</td>
+          <td>{{ message.message.substring(0, 30) }}...</td>
           <td>{{ message.date }}</td>
           <td><router-link :to="{name: 'update_message', params: {id: message.id}}">Modifier</router-link></td>
           <td><a class="delete" @click="deleteMessage(message.id)">Supprimer</a></td>
@@ -57,6 +57,7 @@ export default {
     this.categories = await getCategories().then((response) => {
       return response.data["hydra:member"]
     })
+
 
   },
   methods: {

@@ -5,10 +5,6 @@
       <span>|</span>
       <router-link to="/categories">Catégories</router-link>
       <span>|</span>
-      <router-link to="/messages">Messages</router-link>
-      <span>|</span>
-      <router-link to="/a-propos">A Propos</router-link>
-      <span>|</span>
       <router-link to="/admin">Admin</router-link>
     </div>
     <div id="content">
@@ -91,6 +87,10 @@ body {
 .delete:hover {
   color: red;
   text-decoration: underline;
+}
+
+.form-input {
+  width: 100%;
 }
 
 
