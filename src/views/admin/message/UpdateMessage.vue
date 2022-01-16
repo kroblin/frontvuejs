@@ -7,14 +7,13 @@
       <label for="message">Message</label>
       <input type="text" id="message" name="message" v-model="form.message" required>
       <br>
-      <label for="categorie">Catégorie</label>
-      <select id="categorie" v-model="form.category" required>
+      <label>Catégorie</label>
+      <select id="categorie" v-model="form.category">
         <option v-for="categorie in categories" :key="categorie.id" :value="'/lpdev/annebicque/apivuejs/public/index.php/api/categories/'+categorie.id">{{ categorie.name }}</option>
       </select>
       <br>
       <input type="submit" value="valider">
     </form>
-
 
   </div>
 </template>
@@ -23,9 +22,10 @@
 import axios from "axios";
 import router from "../../../router";
 import {getCategories} from "../../../api/categories";
+//import {getMessage} from "../../../api/messages";
 
 export default {
-  name: "AddMeesage",
+  name: "AddMessage",
 
   data() {
     return {
@@ -36,12 +36,13 @@ export default {
         category: ''
       },
       categories : null,
+      message: {}
     }
   },
 
   methods: {
     submitForm() {
-      axios.put('http://localhost/lpdev/annebicque/apivuejs/public/index.php/api/messages', this.form)
+      axios.put('http://localhost/lpdev/annebicque/apivuejs/public/index.php/api/messages/'+this.url, this.form)
           .then(router.push('../'))
     }
   },
@@ -50,6 +51,16 @@ export default {
     this.categories = await getCategories().then((response) => {
       return response.data["hydra:member"]
     })
+
+     //this.message = await getMessage(this.url).then((response) => {
+     //  return response.data["hydra:member"]
+     //})
+    this.message = await axios.get('http://localhost/lpdev/annebicque/apivuejs/public/index.php/api/messages/'+this.url)
+        .then((response) => {
+          return response.data
+        })
+    this.form = this.message
+
   },
 
 

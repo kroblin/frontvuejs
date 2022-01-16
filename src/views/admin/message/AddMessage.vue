@@ -7,13 +7,14 @@
       <label for="message">Message</label>
       <input type="text" id="message" name="message" v-model="form.message" required>
       <br>
-      <label for="categorie">Catégorie</label>
-      <select id="categorie" v-model="form.category" required>
+      <label>Catégorie</label>
+      <select id="categorie" v-model="form.category" >
         <option v-for="categorie in categories" :key="categorie.id" :value="'/lpdev/annebicque/apivuejs/public/index.php/api/categories/'+categorie.id">{{ categorie.name }}</option>
       </select>
       <br>
       <input type="submit" value="valider">
     </form>
+
 
 
   </div>
@@ -25,7 +26,7 @@ import router from "../../../router";
 import {getCategories} from "../../../api/categories";
 
 export default {
-  name: "AddMeesage",
+  name: "AddMessage",
 
   data() {
     return {
@@ -43,7 +44,7 @@ export default {
   methods: {
     submitForm() {
       axios.post('http://localhost/lpdev/annebicque/apivuejs/public/index.php/api/messages', this.form)
-          .then(router.push('../'))
+          .then(router.push('/admin/'+this.$route.params.id))
     }
   },
 

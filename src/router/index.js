@@ -50,7 +50,7 @@ const routes = [
                 component: AddMessage
             },
             {
-                path: ':id/update-message',
+                path: 'update-message/:id',
                 name: 'update_message',
                 component: UpdateMessage
             }

@@ -1,25 +1,30 @@
 <template>
-  <div class="liste">
-    <h2>Gérer les messages</h2>
-    <table class="admin-table" id="dataTable">
-      <thead>
-        <td>Title</td>
-        <td>Message</td>
-        <td>Date</td>
-        <td></td>
-        <td><router-link :to="{name: 'add_message'}">Ajouter un message</router-link></td>
-      </thead>
-      <tbody>
+  <div class="content">
+    <div class="liste">
+      <h2>Gérer les messages</h2>
+      <table class="admin-table" id="dataTable">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>Message</th>
+          <th>Date</th>
+          <th></th>
+          <th><router-link :to="{name: 'add_message'}">Ajouter un message</router-link></th>
+        </tr>
+        </thead>
+        <tbody>
         <tr v-for="message in categorie.messages" :key="message.id">
           <td>{{ message.title }}</td>
           <td>{{ message.message }}</td>
           <td>{{ message.date }}</td>
-          <td><router-link to="">Modifier</router-link></td>
+          <td><router-link :to="{name: 'update_message', params: {id: message.id}}">Modifier</router-link></td>
           <td><a class="delete" @click="deleteMessage(message.id)">Supprimer</a></td>
         </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -29,7 +34,7 @@ import "datatables.net-dt/js/dataTables.dataTables";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from 'jquery';
 import moment from "moment";
-import {getCategorie} from "../../../api/categories";
+import {getCategorie, getCategories} from "../../../api/categories";
 import {deleteMessage} from "../../../api/messages";
 
 export default {
@@ -37,7 +42,7 @@ export default {
 
   data () {
     return {
-      categorie: {}
+      categorie: {},
     }
   },
   watch: {
@@ -46,7 +51,12 @@ export default {
     }
   },
   async mounted () {
+
+
     this.actualiseCategorie().then($('#dataTable').DataTable());
+    this.categories = await getCategories().then((response) => {
+      return response.data["hydra:member"]
+    })
 
   },
   methods: {
@@ -58,10 +68,16 @@ export default {
       this.categorie = await getCategorie(this.$route.params.id).then((response) => {
         return response.data
       })
+
     },
     async deleteMessage(id) {
-      await deleteMessage(id).then(this.$router.push('../'))
-    }
+      await deleteMessage(id).then(() => {
+        const found = this.categorie.messages.findIndex(c => c.id === id);
+        if (found >= 0) {
+          this.categorie.messages.splice(found, 1);
+        }
+      })
+    },
   }
 }
 </script>
